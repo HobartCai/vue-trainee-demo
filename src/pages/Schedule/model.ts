@@ -5,8 +5,6 @@ import dayjs from "dayjs";
 const LOCAL_STORAGE_KEY = "SCHEDULE_JOBS";
 
 export const model = {
-  debug: true,
-
   state: reactive({
     jobs: <Job[]>[],
     formModal: {
@@ -30,9 +28,6 @@ export const model = {
    */
 
   setJobs(jobs: Job[]) {
-    if (this.debug) {
-      console.log(`set jobs of ${jobs}`);
-    }
     this.state.jobs = jobs;
     this.sort();
   },
@@ -46,9 +41,6 @@ export const model = {
   },
 
   addJob(job: Job) {
-    if (this.debug) {
-      console.log(`add job of ${job}`);
-    }
     this.state.jobs = this.state.jobs.concat(job);
     this.sort();
     this.saveToLocalStorage();
@@ -156,9 +148,6 @@ export const model = {
    */
   saveToLocalStorage() {
     try {
-      if (this.debug) {
-        console.log(this.state.jobs);
-      }
       window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.state.jobs));
     } catch (error) {
       alert(error);
@@ -168,11 +157,8 @@ export const model = {
   loadFromLocalStorage() {
     try {
       const jobs = window.localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (this.debug) {
-        if (jobs) {
-          console.log(JSON.parse(jobs));
-          this.state.jobs = JSON.parse(jobs);
-        }
+      if (jobs) {
+        this.state.jobs = JSON.parse(jobs);
       }
     } catch (error) {
       alert(error);
